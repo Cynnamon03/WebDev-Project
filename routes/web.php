@@ -1,35 +1,43 @@
 <?php
 
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\AboutController;
-use App\Http\Controllers\CalculateController;
-use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\PricingController;
-use App\Http\Controllers\AddUserController;
-use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\CalculateController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AddUserController;
 
-// General Pages
-Route::get('/', [WelcomeController::class, 'index']);
-Route::get('home', [UserController::class, 'home'])->name('home');
-Route::get('about', [AboutController::class, 'index'])->name('aboutPage');
-Route::get('pricing', [PricingController::class, 'index'])->name('pricingPage');
+// ==========================================
+// STATIC PAGES (Routed through PageController)
+// ==========================================
+Route::controller(PageController::class)->group(function () {
+    Route::get('/', 'welcome');
+    Route::get('about', 'about')->name('aboutPage');
+    Route::get('pricing', 'pricing')->name('pricingPage');
+});
 
-// Calculations
+// ==========================================
+// MIMIKYU SHADOW BOARD
+// ==========================================
+Route::get('post', [PostController::class, 'index'])->name('post.index');
+Route::post('post', [PostController::class, 'store'])->name('post');
+
+// ==========================================
+// BATTLE CALCULATIONS
+// ==========================================
 Route::get('calculate/{num1}/{num2}', [CalculateController::class, 'index']);
 
-// User Routes (Grouped by Prefix and Controller)
+// ==========================================
+// USER MANAGEMENT
+// ==========================================
+Route::get('home', [UserController::class, 'home'])->name('home');
+
 Route::prefix('user')->controller(UserController::class)->group(function () {
     Route::get('{id}/{name}', 'show')->name('userDisplay'); 
     Route::get('edit/{id}/{name}', 'edit'); 
     Route::get('delete', 'remove'); 
 });
 
+// Add User routes (Considering to merge this into UserController later)
 Route::get('add', [AddUserController::class, 'create'])->name('add');
 Route::post('add', [AddUserController::class, 'store'])->name('store');
-
-// Display the form and table
-Route::get('post', [PostController::class, 'index'])->name('post.index');
-
-// Handle the form submission (Name this route 'post' as requested)
-Route::post('post', [PostController::class, 'store'])->name('post');
