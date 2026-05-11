@@ -44,7 +44,7 @@ class AddUserController extends Controller
         ]);
 
         $result = DB::table('users')->get();
-        return $result;
+        return response()->json($result, 200, [], JSON_PRETTY_PRINT);
 
         #return redirect()->route('home')->with('status', "Trainer {$firstName} {$lastName} successfully added!");
     }

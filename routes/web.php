@@ -6,6 +6,7 @@ use App\Http\Controllers\CalculateController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PricingController;
 use App\Http\Controllers\AddUserController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 // General Pages
@@ -26,3 +27,9 @@ Route::prefix('user')->controller(UserController::class)->group(function () {
 
 Route::get('add', [AddUserController::class, 'create'])->name('add');
 Route::post('add', [AddUserController::class, 'store'])->name('store');
+
+// Display the form and table
+Route::get('post', [PostController::class, 'index'])->name('post.index');
+
+// Handle the form submission (Name this route 'post' as requested)
+Route::post('post', [PostController::class, 'store'])->name('post');
