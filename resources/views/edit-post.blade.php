@@ -169,64 +169,36 @@
 @endif
 
 <div class="post-container">
-    <h2>📝 Draft a Dispatch</h2>
-    <form action="{{ route('post') }}" method="POST">
+    <h2>📝 Edit Dispatch</h2>
+    <form action="{{ route('post.edit-submit', $posts->id) }}" method="POST">
         @csrf
         
         <div class="form-group">
             <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required placeholder="What's going on?">
+            <input type="text" id="title" name="title" value="{{ $posts->title }}" required placeholder="What's going on?">
         </div>
 
         <div class="form-group">
             <label for="description">Description:</label>
-            <textarea id="description" name="description" rows="4" placeholder="Share the spooky details..."></textarea>
+            <textarea id="description" name="description" rows="4" required placeholder="Share the spooky details...">{{ $posts->description }}</textarea>
         </div>
 
         <div class="form-group">
             <label for="status">Status:</label>
-            <select class = "form-select" name = "status">
+            <select class="form-select" name="status" required>
                 <option value="">Select Status</option>
                 @foreach($statuses as $status)
-                    <option value="{{ $status->id }}">{{ $status->display_name }}</option>
+                    @if($posts->status == $status->id)
+                        <option value="{{ $status->id }}" selected>{{ $status->display_name }}</option>
+                    @else
+                        <option value="{{ $status->id }}">{{ $status->display_name }}</option>
+                    @endif
                 @endforeach
             </select>
         </div>        
 
-        <button type="submit" class="submit-btn">Cast Spell (Submit)</button>
+        <button type="submit" class="submit-btn">Update Spell (Save)</button>
     </form>
-</div>
-
-<div class="post-container">
-    <h2>📋 Recent Dispatches</h2>
-    <table class="post-table">
-        <thead>
-            <tr>
-                <th style="width: 25%">Title</th>
-                <th style="width: 35%">Description</th>
-                <th style="width: 20%">Created By</th>
-                <th style="width: 20%">Created At</th>
-                <th style="width: 20%">Status</th>
-                <th style="width: 15%">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($posts as $post)
-            <tr>
-                <td style="font-weight: bold;">{{ $post->title }}</td>
-                <td>{{ $post->description ?? '...' }}</td>
-                <td style="font-style: italic;">{{ $post->created_by }}</td>
-                <td style="font-style: italic;">{{ $post->created_at }}</td>
-                <td style="font-style: italic;">{{ $post->status_display_name }}</td>
-                <td> 
-                    @if($post->status_name != 'published')
-                        <a href = "{{ route('post.edit-form', ['id' => $post->id]) }}" class = "bi bi-pencil-square"> </a> 
-                    @endif
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
 </div>
 
 @endsection

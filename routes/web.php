@@ -19,8 +19,12 @@ Route::controller(PageController::class)->group(function () {
 // ==========================================
 // MIMIKYU SHADOW BOARD
 // ==========================================
-Route::get('post', [PostController::class, 'index'])->name('post.index');
-Route::post('post', [PostController::class, 'store'])->name('post');
+Route::prefix('post')->controller(PostController::class)->group(function () {
+    Route::get('/', 'index')->name('post.index');
+    Route::post('/', 'store')->name('post');
+    Route::get('edit/{id}', 'editForm')->name('post.edit-form');
+    Route::post('edit/{id}', 'editSubmit')->name('post.edit-submit');
+});
 
 // ==========================================
 // BATTLE CALCULATIONS
