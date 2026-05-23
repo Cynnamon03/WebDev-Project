@@ -51,4 +51,24 @@ class PostController extends Controller
 
         return view('edit-post', compact('posts', 'statuses'));
     }
+
+    public function editSubmit(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'status' => 'required|exists:statuses,id',
+        ]);
+
+        Log::info('Edit Post Form Submitted for ID ' . $id, $validatedData);
+
+        DB::table('posts')->where('id', $id)->update([
+            'title' => $validatedData['title'],
+            'description' => $validatedData['description'],
+            'updated_at' => now(), 
+            'status' => $validatedData['status'],
+        ]);
+
+        return redirect()->route('post.index')->with('success', 'Post updated successfully!');
+    }
 }
