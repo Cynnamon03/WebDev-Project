@@ -92,7 +92,7 @@
 
     .post-table th, .post-table td {
         padding: 15px;
-        text-align: left;
+        text-align:center;
         border-bottom: 2px solid #333;
         border-right: 2px solid #333;
         word-wrap: break-word;
@@ -200,7 +200,7 @@
 <div class="post-container">
     <h2>📋 Recent Dispatches</h2>
     <table class="post-table">
-        <thead>
+        <thead="text-center">
             <tr>
                 <th style="width: 25%">Title</th>
                 <th style="width: 35%">Description</th>
@@ -218,10 +218,18 @@
                 <td style="font-style: italic;">{{ $post->created_by }}</td>
                 <td style="font-style: italic;">{{ $post->created_at }}</td>
                 <td style="font-style: italic;">{{ $post->status_display_name }}</td>
-                <td> 
+                <td class="text-center"> 
                     @if($post->status_name != 'published')
                         <a href = "{{ route('post.edit-form', ['id' => $post->id]) }}" class = "bi bi-pencil-square"> </a> 
                     @endif
+    
+                    <form method="{{ route('post.delete', ['id' => $post->id]) }}" method ='POST'>
+                        @csrf
+                        @method('delete')
+                        <button type="submit" class="btn btn-link" style="display:inline">
+                            <i class="bi bi-trash3"></i>
+                        </button>
+                    </form>
                 </td>
             </tr>
             @endforeach

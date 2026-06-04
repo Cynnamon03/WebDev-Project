@@ -24,6 +24,7 @@ Route::prefix('post')->controller(PostController::class)->group(function () {
     Route::post('/', 'store')->name('post');
     Route::get('edit/{id}', 'editForm')->name('post.edit-form');
     Route::post('edit/{id}', 'editSubmit')->name('post.edit-submit');
+    Route::delete('delete/{id}', 'deletePost')->name('post.delete');
 });
 
 // ==========================================
