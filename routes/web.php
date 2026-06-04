@@ -25,6 +25,7 @@ Route::prefix('post')->controller(PostController::class)->group(function () {
     Route::get('edit/{id}', 'editForm')->name('post.edit-form');
     Route::post('edit/{id}', 'editSubmit')->name('post.edit-submit');
     Route::delete('delete/{id}', 'deletePost')->name('post.delete');
+    Route::get('search/{param}', 'searchPosts')->name('post.search');
 });
 
 // ==========================================
