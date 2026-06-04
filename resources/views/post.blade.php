@@ -199,6 +199,13 @@
 
 <div class="post-container">
     <h2>📋 Recent Dispatches</h2>
+    <form action="{{ route('post.index') }}" method="GET" style="display: flex; gap: 10px;">
+        <input type="search" name="search" placeholder="Search dispatches..." aria-label="Search" 
+                style="padding: 10px 15px; border: 2px solid #333; border-radius: 8px; font-family: inherit; outline: none; width: 250px; transition: all 0.2s ease;">
+            
+        <button class="submit-btn" type="submit" style="padding: 10px 20px;">Search</button>
+    </form>
+
     <table class="post-table">
         <thead="text-center">
             <tr>
@@ -218,17 +225,15 @@
                 <td style="font-style: italic;">{{ $post->created_by }}</td>
                 <td style="font-style: italic;">{{ $post->created_at }}</td>
                 <td style="font-style: italic;">{{ $post->status_display_name }}</td>
-                <td class="text-center"> 
+                <td> 
                     @if($post->status_name != 'published')
-                        <a href = "{{ route('post.edit-form', ['id' => $post->id]) }}" class = "bi bi-pencil-square"> </a> 
+                        <a href="{{ route('post.edit-form', ['id' => $post->id]) }}" class="bi bi-pencil-square" style="margin-right: 10px; color: #333; text-decoration: none;"></a> 
                     @endif
-    
-                    <form method="{{ route('post.delete', ['id' => $post->id]) }}" method ='POST'>
+
+                    <form action="{{ route('post.delete', $post->id) }}" method="POST" style="display:inline-block">
                         @csrf
-                        @method('delete')
-                        <button type="submit" class="btn btn-link" style="display:inline">
-                            <i class="bi bi-trash3"></i>
-                        </button>
+                        @method('DELETE')
+                        <button type="submit" class="bi bi-trash3" style="border:none; background:none; cursor:pointer; color:#ff6b6b; padding:0;" onclick="return confirm('Are you sure you want to delete this dispatch?');"></button>
                     </form>
                 </td>
             </tr>

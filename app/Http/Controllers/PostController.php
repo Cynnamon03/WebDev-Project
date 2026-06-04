@@ -74,7 +74,16 @@ class PostController extends Controller
 
     public function deletePost($id)
     {
+        Log::info("Post ID {$id} was deleted.");
+
         DB::table('posts')->where('id', $id)->delete();
         return redirect()->route('post.index')->with('success', 'Post deleted successfully!');
+    }
+
+    public function searchPosts($param)
+    {
+        $posts = DB::table('posts')->where('title', 'like', "%{$param}")->orwhere('description', 'like', "%{$param}")->get();
+        $statuses = DB::table('statuses')->get();
+        return view('post', compact('posts', 'statuses'));
     }
 }
