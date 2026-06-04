@@ -199,8 +199,8 @@
 
 <div class="post-container">
     <h2>📋 Recent Dispatches</h2>
-    <form action="{{ route('post.index') }}" method="GET" style="display: flex; gap: 10px;">
-        <input type="search" name="search" placeholder="Search dispatches..." aria-label="Search" 
+    <form action="{{ route('post.search') }}" method="GET" style="display: flex; gap: 10px;">
+        <input type="search" name="search" placeholder="Search dispatches..." aria-label="Search" value="{{ request('param') }}" 
                 style="padding: 10px 15px; border: 2px solid #333; border-radius: 8px; font-family: inherit; outline: none; width: 250px; transition: all 0.2s ease;">
             
         <button class="submit-btn" type="submit" style="padding: 10px 20px;">Search</button>

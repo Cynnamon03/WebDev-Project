@@ -80,10 +80,11 @@ class PostController extends Controller
         return redirect()->route('post.index')->with('success', 'Post deleted successfully!');
     }
 
-    public function searchPosts($param)
+    public function searchPosts(Request $request)
     {
-        $posts = DB::table('posts')->where('title', 'like', "%{$param}")->orwhere('description', 'like', "%{$param}")->get();
+        $posts = DB::table('posts')->where('title', 'like', "%{$request->param}")->orwhere('description', 'like', "%{$request->param}")->get();
         $statuses = DB::table('statuses')->get();
         return view('post', compact('posts', 'statuses'));
     }
 }
+
