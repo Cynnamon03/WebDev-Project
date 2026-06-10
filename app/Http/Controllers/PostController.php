@@ -82,8 +82,15 @@ class PostController extends Controller
 
     public function searchPosts(Request $request)
     {
-        $posts = DB::table('posts')->where('title', 'like', "%{$request->param}")->orwhere('description', 'like', "%{$request->param}")->get();
+        $posts = DB::table('posts')
+                    ->leftJoin('statuses', 'posts.status', '=', 'statuses.id')
+                    ->select('posts.*', 'statuses.display_name as status_display_name', 'statuses.name as status_name')
+                    ->where('title', 'like', "%{$request->param}%")
+                    ->orWhere('description', 'like', "%{$request->param}%")
+                    ->get();
+
         $statuses = DB::table('statuses')->get();
+        
         return view('post', compact('posts', 'statuses'));
     }
 }
